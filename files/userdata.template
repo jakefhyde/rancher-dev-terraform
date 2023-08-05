@@ -1,0 +1,8 @@
+#cloud-config
+runcmd:
+  - apt-get update
+  - curl https://releases.rancher.com/install-docker/${docker_version}.sh | sh
+  - usermod -aG docker ${docker_user}
+  - systemctl restart docker && systemctl enable docker
+  - iptables -A INPUT -p tcp --dport 6443 -j ACCEPT
+  - iptables -A INPUT -p tcp --dport 2379 -j ACCEPT
